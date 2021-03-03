@@ -16,7 +16,7 @@ class PropertyController {
     const { name } = req.query;
 
     try {
-      const properties = await Property.find({ name });
+      const properties = await Property.find({ name: { $regex: name, $options: 'i' } });
       return res.status(200).json({ properties });
     } catch (err) {
       return res.status(500).json({ errorCode: 'database-error', message: err.message });
