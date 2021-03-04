@@ -1,6 +1,5 @@
 # mobiliq_server
-## Property REST APIs
-  ### create property
+  ## create property
     * header
         ```
         Method: POST
