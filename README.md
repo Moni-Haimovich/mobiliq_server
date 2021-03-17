@@ -44,3 +44,32 @@
       }
   }
   ```
+
+## add images to property
+
+- header
+  ```
+  Method: PUT
+  Content-Type: multipart/form-data
+  ```
+- body
+  ```
+  * body should be FormData.
+  * length of images array and images_meta array should be same.
+  ```
+  ```
+  {
+      "_id": {
+          type: ObjectID
+          required: true
+      }
+      "images" {
+          type: array of image files
+          required: true,
+      }
+      "images_meta": {
+          type: array of image meta-data
+          required: true
+      }
+  }
+  ```
