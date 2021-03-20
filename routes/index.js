@@ -1,6 +1,6 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-router.use('/', require('./apis/index'));
+router.use("/", require("./apis/index"));
 
 module.exports = router;

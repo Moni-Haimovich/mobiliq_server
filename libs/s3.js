@@ -1,7 +1,7 @@
-const AWS = require('aws-sdk');
-const { v4: uuid } = require('uuid');
-const multer = require('multer');
-const multerS3 = require('multer-s3');
+const AWS = require("aws-sdk");
+const { v4: uuid } = require("uuid");
+const multer = require("multer");
+const multerS3 = require("multer-s3");
 
 const AWS_ID = process.env.AWS_ID;
 const AWS_KEY = process.env.AWS_KEY;
@@ -22,14 +22,14 @@ const fileFilter = (req, file, cb) => {
     return;
   }
 
-  cb(new Error('Only Images are allowed.'));
+  cb(new Error("Only Images are allowed."));
 };
 
 const uploadS3 = multer({
   fileFilter,
   storage: multerS3({
     s3,
-    acl: 'public-read',
+    acl: "public-read",
     bucket: BUCKET_NAME,
     metadata: (req, file, cb) => {
       cb(null, { fieldName: file.fieldname });
@@ -41,4 +41,13 @@ const uploadS3 = multer({
   }),
 });
 
-module.exports = { uploadS3 };
+const removeImg = (url) => {
+  return new Promise((resolve, reject) => {
+    s3.deleteObject({ Bucket: BUCKET_NAME, Key: url }, (err, data) => {
+      if (err) reject(err);
+      resolve(data);
+    });
+  });
+};
+
+module.exports = { uploadS3, removeImg };

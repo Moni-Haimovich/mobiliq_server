@@ -1,5 +1,5 @@
-const fs = require('fs');
-const chalk = require('chalk');
+const fs = require("fs");
+const chalk = require("chalk");
 
 const getReqDurationInMilliseconds = (start) => {
   const NS_PER_SEC = 1e9; // convert to nanoseconds
@@ -21,11 +21,11 @@ const logger = (req, res, next) => {
   const durationInMilliseconds = getReqDurationInMilliseconds(start);
 
   let log = `[${chalk.blue(reqDateTime)}] ${method}:${url} ${status} ${chalk.red(
-    durationInMilliseconds.toLocaleString() + 'ms'
+    durationInMilliseconds.toLocaleString() + "ms"
   )}`;
   console.log(log);
 
-  fs.appendFile('logs.txt', log + '\n', (err) => err && console.log(err));
+  fs.appendFile("logs.txt", log + "\n", (err) => err && console.log(err));
 
   next();
 };

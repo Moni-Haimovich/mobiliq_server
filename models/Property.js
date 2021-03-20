@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const PropertySchema = new mongoose.Schema({
   name: {
@@ -25,4 +25,4 @@ const PropertySchema = new mongoose.Schema({
   ],
 });
 
-module.exports = mongoose.model('properties', PropertySchema);
+module.exports = mongoose.model("properties", PropertySchema);
