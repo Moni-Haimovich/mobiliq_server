@@ -6,3 +6,6 @@ public
 
 # env
 .env
+
+# logger
+logs.txt

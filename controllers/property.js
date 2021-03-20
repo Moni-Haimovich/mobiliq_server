@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const Property = require('../models/Property');
 const { uploadS3 } = require('../libs/upload');
 const multipleUpload = uploadS3.array('images');
@@ -126,6 +128,27 @@ class PropertyController {
         return res.status(500).json({ errorCode: 'database-error', message: dbError.message });
       }
     });
+  }
+
+  async delete(req, res) {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(422).json({ errorCode: 'invalid_field', message: 'id should be ObjectID' });
+    }
+
+    try {
+      const property = await Property.findById({ _id: id });
+
+      if (!property) {
+        return res.status(422).json({ errorCode: 'invalid_field', message: "property doesn't exist" });
+      }
+
+      await Property.findByIdAndDelete({ _id: id });
+      return res.status(200).json({ message: 'property deleted.' });
+    } catch (err) {
+      return res.status(500).json({ errorCode: 'database-error', message: err.message });
+    }
   }
 }
 
