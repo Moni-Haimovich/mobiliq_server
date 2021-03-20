@@ -130,6 +130,42 @@ class PropertyController {
     });
   }
 
+  async removeImage(req, res) {
+    const { propertyId, imageId } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(propertyId)) {
+      return res.status(422).json({ errorCode: 'invalid_field', message: 'property id should be ObjectID' });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(imageId)) {
+      return res.status(422).json({ errorCode: 'invalid_field', message: 'image id should be ObjectID' });
+    }
+
+    try {
+      const property = await Property.findById({ _id: propertyId });
+
+      if (!property) {
+        return res.status(422).json({ errorCode: 'invalid_field', message: "property doesn't exist" });
+      }
+
+      const targetImg = property.images.find(({ _id }) => _id.toString() === imageId);
+
+      if (!targetImg) {
+        return res.status(422).json({ errorCode: 'invalid_field', message: "image doesn't exist" });
+      }
+
+      const images = property.images
+        .filter(({ _id }) => _id.toString() !== imageId)
+        .map(({ url, description, size }) => ({ url, description, size }));
+      await Property.findByIdAndUpdate({ _id: propertyId }, { images });
+
+      return res.status(200).json({ message: 'image deleted.' });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ errorCode: 'database-error', message: err.message });
+    }
+  }
+
   async delete(req, res) {
     const { id } = req.params;
 
