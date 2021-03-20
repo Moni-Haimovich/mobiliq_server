@@ -21,6 +21,7 @@ mongoose
   // eslint-disable-next-line no-console
   .catch((err) => console.log(err));
 
+const { logger } = require('./libs/logger');
 const indexRouter = require('./routes/index');
 
 const app = express();
@@ -30,6 +31,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(logger);
 
 app.use('/', indexRouter);
 
