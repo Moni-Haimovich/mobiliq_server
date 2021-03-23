@@ -1,4 +1,3 @@
-const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
@@ -21,8 +20,10 @@ mongoose
   // eslint-disable-next-line no-console
   .catch((err) => console.log(err));
 
+const port = process.env.PORT || 3000;
 const { logger } = require("./libs/logger");
 const indexRouter = require("./routes/index");
+const { handleError, ErrorHandler } = require("./libs/error");
 
 const app = express();
 
@@ -35,15 +36,17 @@ app.use(logger);
 
 app.use("/", indexRouter);
 
-// catch 404 and forward to error handler
 app.use((req, res, next) => {
-  next(createError(404));
+  const error = new ErrorHandler(404, "Not Found");
+  next(error);
 });
 
 // error handler
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
-  console.log("err: ", err);
+  handleError(err, res);
 });
 
-module.exports = app;
+app.listen(port, () => {
+  console.log(`server is listening on port${port}`);
+});

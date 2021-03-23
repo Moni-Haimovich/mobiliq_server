@@ -22,7 +22,7 @@ const fileFilter = (req, file, cb) => {
     return;
   }
 
-  cb(new Error("Only Images are allowed."));
+  cb(new Error("only images are allowed."));
 };
 
 const uploadS3 = multer({
