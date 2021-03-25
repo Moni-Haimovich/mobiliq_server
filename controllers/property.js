@@ -70,7 +70,7 @@ class PropertyController {
     }
   }
 
-  async find(req, res, next) {
+  async findByName(req, res, next) {
     const { name } = req.query;
 
     try {
